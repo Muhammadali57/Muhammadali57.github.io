@@ -426,3 +426,88 @@ body{ -webkit-tap-highlight-color:transparent; }
   100%{transform:translate3d(3px,0,0);background-position:18px 1px,-12px 12px,21px -8px,-13px 16px,18px -7px,-11px 12px,20px -10px,-11px 16px,17px -8px,-12px 13px,19px -9px}
 }
 @media(prefers-reduced-motion:reduce){.secret-goal::before{animation:none}}
+
+
+/* ==========================================
+   LYRICS LIGHT EFFECT
+   Light Sweep + Soft Glow + Smooth Fade
+   ========================================== */
+
+/* Har bir bo'lak uchun silliq yorug'lik o'tishi */
+.lyrics .word-sync .lyrics-syllable {
+  transition:
+    filter .22s ease,
+    opacity .22s ease;
+}
+
+/* Matnning to'ldirilgan qismi */
+.lyrics .word-sync .lyrics-syllable-fill {
+  background-image: none;
+  transition:
+    filter .22s ease,
+    opacity .22s ease;
+}
+
+/* Faol bo'lak — yumshoq tashqi nur */
+.lyrics .word-sync .lyrics-syllable.is-active {
+  z-index: 2;
+  filter:
+    drop-shadow(0 0 2px rgba(255, 255, 255, .35))
+    drop-shadow(0 0 6px rgba(180, 215, 255, .28));
+}
+
+/* Faol matn ustidagi yorug'lik */
+.lyrics .word-sync .lyrics-syllable.is-active .lyrics-syllable-fill {
+  background-image: linear-gradient(
+    90deg,
+    var(--text) 0%,
+    var(--text) 35%,
+    rgba(255, 255, 255, .95) 48%,
+    #ffffff 50%,
+    rgba(255, 255, 255, .85) 53%,
+    var(--text) 66%,
+    var(--text) 100%
+  );
+
+  background-size: 240% 100%;
+  background-position: 100% 0;
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: lyricLightSweep 1.15s ease-in-out infinite;
+
+  filter:
+    drop-shadow(0 0 2px rgba(255, 255, 255, .65))
+    drop-shadow(0 0 5px rgba(190, 220, 255, .45));
+}
+
+/* Chapdan o'ngga harakatlanuvchi yorug'lik */
+@keyframes lyricLightSweep {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+/* Faol bo'lak tugaganda nur asta yo'qoladi */
+.lyrics .word-sync .lyrics-syllable:not(.is-active) {
+  filter: none;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .lyrics .word-sync .lyrics-syllable,
+  .lyrics .word-sync .lyrics-syllable-fill {
+    transition: none;
+  }
+
+  .lyrics .word-sync .lyrics-syllable.is-active .lyrics-syllable-fill {
+    animation: none;
+    background-position: 50% 0;
+  }
+}
